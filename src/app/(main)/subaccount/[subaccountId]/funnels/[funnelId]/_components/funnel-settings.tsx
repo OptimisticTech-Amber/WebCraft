@@ -2,7 +2,7 @@ import React from "react";
 import { type Funnel } from "@prisma/client";
 import { redirect } from "next/navigation";
 
-import { getConnectAccountProducts } from "@/lib/stripe/stripe-actions";
+// import { getConnectAccountProducts } from "@/lib/stripe/stripe-actions";
 import { getSubaccountDetails as getSubAccountDetails } from "@/lib/queries";
 
 import CreateFunnel from "@/components/forms/create-funnel";
@@ -31,9 +31,10 @@ const FunnelSettings: React.FC<FunnelSettingsProps> = async ({
   if (!subaccountDetails.connectAccountId)
     redirect(`/subaccount/${subAccountId}/launchpad`);
 
-  const products = await getConnectAccountProducts(
-    subaccountDetails.connectAccountId
-  );
+  // const products = await getConnectAccountProducts(
+  //   subaccountDetails.connectAccountId
+  // );
+  const products:any = []; // WIP: replace with actual products from stripe
 
   return (
     <div className="flex gap-4 flex-col max-w-4xl w-full mx-auto items-center">

@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import Stripe from "stripe";
 import { useRouter } from "next/navigation";
 import { type Funnel } from "@prisma/client";
 
@@ -23,7 +22,7 @@ import { toast } from "sonner";
 
 interface FunnelProductsTableProps {
   defaultData: Funnel;
-  products: Stripe.Product[];
+  products: any[];
 }
 
 const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
@@ -57,27 +56,25 @@ const FunnelProductsTable: React.FC<FunnelProductsTableProps> = ({
     router.refresh();
   };
 
-  const handleAddProduct = async (product: Stripe.Product) => {
+  const handleAddProduct = async (product: any) => {
     const productIdExists = liveProducts.find(
-      // @ts-ignore
       (prod) => prod.productId === product.default_price?.id
     );
-    productIdExists
-      ? setLiveProducts(
-          liveProducts.filter(
-            // @ts-ignore
-            (prod) => prod.productId !== product.default_price?.id
-          )
+    if (productIdExists) {
+      setLiveProducts(
+        liveProducts.filter(
+          (prod) => prod.productId !== product.default_price?.id
         )
-      : setLiveProducts([
-          ...liveProducts,
-          {
-            //@ts-ignore
-            productId: product.default_price?.id as string,
-            //@ts-ignore
-            recurring: !!product.default_price.recurring,
-          },
-        ]);
+      );
+    } else {
+      setLiveProducts([
+        ...liveProducts,
+        {
+          productId: product.default_price?.id as string,
+          recurring: !!product.default_price?.recurring,
+        },
+      ]);
+    }
   };
 
   return (

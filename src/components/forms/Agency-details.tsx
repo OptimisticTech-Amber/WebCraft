@@ -135,18 +135,10 @@ const AgencyDetails = ({ data }: Props) => {
         };
         console.log(bodyData);
 
-        const customerResponse = await fetch("/api/stripe/create-customer", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(bodyData),
-        });
-
-        const customerData: { customerId: string } =
-          await customerResponse.json();
-
-        custId = customerData.customerId;
+        // Stripe integration removed. Skip creating a Stripe customer.
+        // If you migrate to another payments provider implement the
+        // customer creation flow here and set custId accordingly.
+        const custId = undefined;
       }
       newUserData = await initUser({ role: "AGENCY_OWNER" });
       console.log(newUserData);

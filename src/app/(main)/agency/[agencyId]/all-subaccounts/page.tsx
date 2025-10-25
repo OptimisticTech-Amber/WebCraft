@@ -1,4 +1,14 @@
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -16,19 +26,18 @@ import React from "react";
 import DeleteButton from "./_components/delete-button";
 import CreateSubaccountButton from "./_components/create-subaccount-btn";
 
-type Props = {
-  params: {
-    agencyId: string;
-  };
-};
-
-const AllSubaccountPage = async ({ params }: Props) => {
+const AllSubaccountPage = async (props: any) => {
+  const { params } = props;
   const user = await getAuthUserDetails();
   if (!user) return;
   return (
     <AlertDialog>
       <div className="flex flex-col">
-        <CreateSubaccountButton user={user} id={params.agencyId} className="w-[200px] self-end m-6"/>
+        <CreateSubaccountButton
+          user={user}
+          id={params.agencyId}
+          className="w-[200px] self-end m-6"
+        />
         <Command className="rounded-lg bg-transparent">
           <CommandInput placeholder="Search Accounts" />
           <CommandList>
@@ -47,35 +56,55 @@ const AllSubaccountPage = async ({ params }: Props) => {
                       className="flex gap-4 w-full h-full"
                     >
                       <div className="relative w-32">
-                        <Image src={subaccount.subAccountLogo} alt="subAccount Logo" fill className="rounded-md object-contain bg-muted/50 p-4" />
+                        <Image
+                          src={subaccount.subAccountLogo}
+                          alt="subAccount Logo"
+                          fill
+                          className="rounded-md object-contain bg-muted/50 p-4"
+                        />
                       </div>
-                     <div className="flex flex-col justify-between">
-                        <div className="flex flex-col">{subaccount.name}
-                            <span className="text-muted-foreground text-xs">{subaccount.address}</span>
+                      <div className="flex flex-col justify-between">
+                        <div className="flex flex-col">
+                          {subaccount.name}
+                          <span className="text-muted-foreground text-xs">
+                            {subaccount.address}
+                          </span>
                         </div>
-                     </div>
+                      </div>
                     </Link>
                     <AlertDialogTrigger asChild>
-                      <Button size={'sm'}  className="text-white w-20 hover:bg-red-600 hover:text-white">Delete</Button>
+                      <Button
+                        size={"sm"}
+                        className="text-white w-20 hover:bg-red-600 hover:text-white"
+                      >
+                        Delete
+                      </Button>
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle className="text-left">Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogTitle className="text-left">
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
                         <AlertDialogDescription className="text-left">
-                          This action cannot be undo. This will delete the subaccount and all the details related to subaccount.
+                          This action cannot be undo. This will delete the
+                          subaccount and all the details related to subaccount.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
-                     <AlertDialogFooter className="flex items-center">
-                      <AlertDialogCancel className="mb-2">Cancel</AlertDialogCancel>
-                      <AlertDialogAction className="bg-destructive hover:bg-destructive ">
-                        <DeleteButton subaccountId={subaccount.id} />
-                      </AlertDialogAction>
-                     </AlertDialogFooter>
+                      <AlertDialogFooter className="flex items-center">
+                        <AlertDialogCancel className="mb-2">
+                          Cancel
+                        </AlertDialogCancel>
+                        <AlertDialogAction className="bg-destructive hover:bg-destructive ">
+                          <DeleteButton subaccountId={subaccount.id} />
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
                     </AlertDialogContent>
                   </CommandItem>
                 ))
               ) : (
-                <div className="text-muted-foreground text-center p-4">No Sub Accounts</div>
+                <div className="text-muted-foreground text-center p-4">
+                  No Sub Accounts
+                </div>
               )}
             </CommandGroup>
           </CommandList>
